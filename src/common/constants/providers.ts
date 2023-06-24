@@ -1,48 +1,6 @@
 export const SEQUELIZE = 'SEQUELIZE';
 
-export const APP_INSIGHTS = 'APP_INSIGHTS';
-
-export const CATEGORY = 'CATEGORY';
-
-export const ANALYTICS = 'ANALYTICS';
-
-export const REQUEST = 'REQUEST';
-
-export const DOCUMENT = 'DOCUMENT';
-
 export const FIELDS = 'FIELDS';
-
-export const PROGRESS_GROUP = 'PROGRESS_GROUP';
-
-export const PERSONAL_APPLYING = 'PERSONAL_APPLYING';
-
-export const PERSONAL_REQUESTS = 'PERSONAL_REQUESTS';
-
-export const EXTRA_REQUEST_DATA = 'EXTRA_REQUEST_DATA';
-
-export const EXTRA_DATA_CODES = 'EXTRA_DATA_CODES';
-
-export const PERSONAL_DOCUMENTS = 'PERSONAL_DOCUMENTS';
-
-export const PERSONAL_MATCH_SURVEY = 'PERSONAL_MATCH_SURVEY';
-
-export const MATCH_SURVEY_ANSWER = 'MATCH_SURVEY_ANSWER';
-
-export const PERSONAL_SURVEY_RECOMMEND = 'PERSONAL_SURVEY_RECOMMEND';
-
-export const SURVEY_RECOMMEND = 'SURVEY_RECOMMEND';
-
-export const RECOMMENDS_FUNC = 'RECOMMENDS_FUNC';
-
-export const DOCS_DECISION_FUNC = 'DOCS_DECISION_FUNC';
-
-export const REQ_ERRORS = 'REQ_ERRORS';
-
-export const DOC_ERRORS = 'DOC_ERRORS';
-
-export const SMS_CODE = 'SMS_CODE';
-
-export const SMS_MONITOR = 'SMS_MONITOR';
 
 export const PAGE_TITLES = 'PAGE_TITLES'
 

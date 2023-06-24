@@ -1,5 +1,5 @@
 // Constants
-import { IS_PUBLIC_KEY } from "../constants";
+import { IS_PUBLIC_KEY } from "../constants/metadata";
 
 // External libraries
 import { Reflector } from "@nestjs/core";
