@@ -3,7 +3,5 @@ export interface IPageTitles {
     pageNumber: number;
     mainTitle: string;
     secondaryTitle: string;
-    progressGroup: number;
     singleFieldCounter: number;
-    link_id: string;
 }

@@ -1,9 +1,9 @@
 import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { DropdownOptionsService } from './dropdownOptions.service';
+
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/constants/roles';
 
-@Roles(Role.HOVA,Role.ADMIN)
 @Controller('dropdownOptions')
 export class DropdownOptionsController {
   constructor(private readonly dropdownOptionsService: DropdownOptionsService) { }

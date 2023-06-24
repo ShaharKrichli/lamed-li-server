@@ -1,8 +1,8 @@
 // Constants
-import { Op } from "../utils";
+import { Op } from "../utils/operators-memory.utils";
 
 // Utils
-import { isOperatorsOptionsMemory } from "../utils";
+import { isOperatorsOptionsMemory } from "../utils/check-type.utils";
 
 // Interfaces
 import { OperatorsOptionsMemory, KeyWhereOptionsMemory, WhereOptionsMemory } from "../interfaces/memory.interface";

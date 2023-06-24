@@ -7,7 +7,7 @@ import { Injectable, Inject } from '@nestjs/common';
 
 // Repository
 import { BaseRepositoryORM, ModelType } from 'src/models/orm/model.repository-orm';
-import { PAGE_TITLES } from 'src/common/constants';
+import { PAGE_TITLES } from 'src/common/constants/providers';
 
 @Injectable()
 export class PageTitlesRepository extends BaseRepositoryORM<PageTitles> {

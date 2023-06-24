@@ -11,15 +11,11 @@ import { AppController } from './app.controller';
 // External libraries
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 
-//middlewares
-import { passportMiddleWare, tokenExperationMiddleware } from './middleware/passport/passportMiddleware';
-
 //modules
 import { GenericFieldsModule } from './models/genericFields/genericFields.module';
 import { PageTitlesModule } from './models/pageTitles/pageTitles.module';
 import { AuthenticationModule } from './models/auth/auth.module';
 import { DropdownOptionsModule } from './models/genericFields/dropdownOptions/dropdownOptions.module';
-
 
 // guards
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -58,6 +54,6 @@ import { DatabaseModule } from './postgres/provider.module';
 
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(tokenExperationMiddleware, passportMiddleWare).forRoutes("/login/auth");
+    // consumer.apply(tokenExperationMiddleware, passportMiddleWare).forRoutes("/login/auth");
   }
 }

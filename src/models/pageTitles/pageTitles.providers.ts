@@ -1,5 +1,5 @@
 // Shift
-import { PAGE_TITLES } from 'src/common/constants';
+import { PAGE_TITLES } from 'src/common/constants/providers';
 import { PageTitles } from './entities/pageTitles.entity';
 
 export const PageTitlesProviders = [

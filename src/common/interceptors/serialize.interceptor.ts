@@ -1,5 +1,5 @@
 // Utils
-import { serializeSequelize } from '../utils';
+import { serializeSequelize } from '../utils/serialize-sequelize.utils';
 
 // External libraries
 import { Observable } from 'rxjs';

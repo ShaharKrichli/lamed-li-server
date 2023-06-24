@@ -9,9 +9,6 @@ import {
     AllowNull,
 } from 'sequelize-typescript';
 
-//entities
-import { Link } from 'src/models/links/entities/link.entity';
-import { ProgressGroup } from 'src/models/progressGroup/entities/progressGroup.entity';
 
 // interfaces
 import { IPageTitles } from '../interfaces/pageTitles.interface';
@@ -32,23 +29,7 @@ export class PageTitles extends Model<PageTitles> implements IPageTitles {
     @Column({ type: DataType.TEXT })
     public secondaryTitle: string
 
-    @ForeignKey(() => ProgressGroup)
-    @Column({ type: DataType.INTEGER })
-    public progressGroup: number
-
     @AllowNull
     @Column({ type: DataType.INTEGER })
     public singleFieldCounter: number
-
-    @AllowNull
-    @ForeignKey(() => Link)
-    @Column({ type: DataType.TEXT })
-    public link_id: string
-
-    @BelongsTo(() => ProgressGroup, 'progressGroup')
-    public group: ProgressGroup;
-
-    @BelongsTo(() => Link, 'link_id')
-    public link: Link;
-
 }

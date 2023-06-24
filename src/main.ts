@@ -1,10 +1,8 @@
 // App
 import { AppModule } from './app.module';
 
-import { passportConfig } from './middleware/passport/passportConfig';
-
 // Interceptors
-import { SerializeInterceptor } from './common/interceptors';
+import { SerializeInterceptor } from './common/interceptors/serialize.interceptor';
 
 // External libraries
 import { json } from 'body-parser';
@@ -51,8 +49,6 @@ async function bootstrap() {
   app.disable('x-powered-by');
   
   app.useGlobalPipes(new ValidationPipe({ transform: true,disableErrorMessages: true }));
-
-  passportConfig(app);
 
  await app.listen(process.env.PORT);
 

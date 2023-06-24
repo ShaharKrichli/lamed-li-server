@@ -5,7 +5,7 @@ import { GenericFields } from './entities/genericFields.entity';
 import { Injectable, Inject } from '@nestjs/common';
 
 // Constants
-import { FIELDS } from '../../common/constants';
+import { FIELDS } from '../../common/constants/providers';
 
 // Repository
 import { BaseRepositoryORM, ModelType } from '../orm/model.repository-orm';

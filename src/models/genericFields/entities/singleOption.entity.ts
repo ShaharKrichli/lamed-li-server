@@ -7,7 +7,6 @@ import {
     ForeignKey,
     BelongsTo,
 } from 'sequelize-typescript';
-import { ExtraDataCodes } from 'src/models/extraDataCodes/entities/extraDataCodes.entity';
 
 // interfaces
 import { ISingleOption } from '../interfaces/singleOption.interface';
@@ -19,7 +18,6 @@ import { FieldMultOptions } from './multOptionField.entity';
 export class SingleOption extends Model<SingleOption> implements ISingleOption {
     @PrimaryKey
     @ForeignKey(() => FieldMultOptions)
-    @ForeignKey(() => ExtraDataCodes)
     @Column({ type: DataType.INTEGER })
     id: number;
 
@@ -35,7 +33,4 @@ export class SingleOption extends Model<SingleOption> implements ISingleOption {
 
     @BelongsTo(() => FieldMultOptions, 'id')
     public optionDesc: FieldMultOptions
-
-    @BelongsTo(() => ExtraDataCodes, { foreignKey: "id", targetKey: "singleOptionId" })
-    public extraDataCodes: ExtraDataCodes;
 }
