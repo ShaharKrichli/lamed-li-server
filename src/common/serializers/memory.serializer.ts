@@ -5,7 +5,7 @@ import { Op } from "../utils";
 import { isOperatorsOptionsMemory } from "../utils";
 
 // Interfaces
-import { OperatorsOptionsMemory, KeyWhereOptionsMemory, WhereOptionsMemory } from "../interfaces";
+import { OperatorsOptionsMemory, KeyWhereOptionsMemory, WhereOptionsMemory } from "../interfaces/memory.interface";
 
 export function serializerKeyWhereOptionsMemory<M>(object: object, objectWhere: KeyWhereOptionsMemory<M>) {
   return Object.keys(objectWhere)

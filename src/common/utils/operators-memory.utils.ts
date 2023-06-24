@@ -1,11 +1,11 @@
 // Utils
-import { isDate, isObject } from ".";
+import { isDate, isObject } from "./check-type.utils";
 
 // Interfaces
-import { OperatorsANDORMemory } from "../interfaces";
+import { OperatorsANDORMemory } from "../interfaces/memory.interface";
 
 // Serializers
-import { serializerKeyWhereOptionsMemory, serializerWhereOptionsMemory } from "../serializers";
+import { serializerKeyWhereOptionsMemory, serializerWhereOptionsMemory } from "../serializers/memory.serializer";
 
 export const Op = {
   or: or,

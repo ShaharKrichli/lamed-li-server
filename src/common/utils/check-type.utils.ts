@@ -1,5 +1,5 @@
 // Interfaces
-import { OperatorsOptionsMemory } from "../interfaces";
+import { OperatorsOptionsMemory } from "../interfaces/memory.interface";
 
 export const isNumber = (value: unknown): value is number =>
   typeof value === "number" || value instanceof Number;

@@ -1,4 +1,3 @@
-import { SPLITTER } from "src/common/constants/global";
 import { FieldValidators } from "src/models/genericFields/entities/fieldsValidators.entity";
 import { IFieldCondition, fieldsValidatorsManager, IFieldValidators, fieldValueType } from "./IValidation";
 
@@ -26,9 +25,6 @@ export const textFieldsFuncValidators: fieldsValidatorsManager = {
     },
     isIdValid: (textToCheck: string): boolean => {
         return new RegExp(/^\d{0,9}$/).test(textToCheck);
-    },
-    multPickedLength: (textToCheck: string, maxLength: number): boolean => {
-        return textToCheck.split(SPLITTER).length <= maxLength;
     },
     phoneNumber: (textToCheck: string): boolean => {
         return textToCheck.length === 10 && textToCheck[0] === '0'

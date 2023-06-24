@@ -11,13 +11,13 @@ import {
   RelationObjectOptions,
   FindAttributesOptions,
   FindArrayAttributesOptions
-} from "../interfaces";
+} from "../interfaces/orm.interface";
 
 // Utils
-import { transformObj, isObject } from "../utils";
+import { isObject } from "../utils/check-type.utils";
 
 // Constants
-import { operatorsORM } from "../constants";
+import { operatorsORM } from "../constants/ormOp";
 
 // Sequelize
 import {
@@ -37,6 +37,7 @@ import {
   //   FindOrCreateOptions
 } from "sequelize";
 import { Model } from "sequelize-typescript";
+import { transformObj } from "../utils/transform-obj.utils";
 
 function serializerFunctionOptions({ fn, column }: FunctionOptions) {
   return SequelizeFn(fn, SequelizeCol(column));

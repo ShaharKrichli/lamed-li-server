@@ -30,9 +30,8 @@ export enum FIELDS_VALIDATORS_FUNCTIONS {
     isAbove = 'isAbove',
     required = 'required',
     isIdValid = 'isIdValid',
-    multPickedLength = 'multPickedLength',
     phoneNumber = 'phone_number',
-    onlyHebrewAndDigits='onlyHebrewAndDigits'
+    onlyHebrewAndDigits = 'onlyHebrewAndDigits'
 }
 
 export type FIELDS_VALIDATORS_FUNCTIONS_LITERALS = keyof typeof FIELDS_VALIDATORS_FUNCTIONS;
