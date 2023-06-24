@@ -7,7 +7,6 @@ import { GenericFieldsService } from './genericFields.service';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/constants/roles';
 
-@Roles(Role.HOVA,Role.ADMIN)
 @Controller('reqFields')
 export class GenericFieldsController {
   constructor(private readonly genericRequestFieldsService: GenericFieldsService) { }
