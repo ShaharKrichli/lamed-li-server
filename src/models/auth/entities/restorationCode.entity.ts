@@ -18,7 +18,7 @@ export class RestorationCodes extends Model<RestorationCodes> implements IRestor
     @PrimaryKey
     @ForeignKey(() => User)
     @Column({ type: DataType.TEXT })
-    public userId: string;
+    public email: string;
 
     @Column({ type: DataType.TEXT })
     public code: string;

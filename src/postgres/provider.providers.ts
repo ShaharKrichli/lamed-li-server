@@ -13,9 +13,9 @@ import { SingleOption } from 'src/models/genericFields/entities/singleOption.ent
 import { SkipDecisionFunc } from 'src/models/genericFields/entities/skipDecisionFunc.entity';
 import { OptionStyle } from 'src/models/genericFields/entities/types/optionStyle.entity';
 import { DropdownOptions } from 'src/models/genericFields/dropdownOptions/entities/dropdownOptions.entity';
-import { User } from 'src/models/user/entities/user.entity';
-import { RoleTypes } from 'src/models/user/entities/roleTypes.entity';
-import { RestorationCodes } from 'src/models/user/entities/restorationCode.entity';
+import { User } from 'src/models/auth/entities/user.entity';
+import { RoleTypes } from 'src/models/auth/entities/roleTypes.entity';
+import { RestorationCodes } from 'src/models/auth/entities/restorationCode.entity';
 
 export const databaseProviders = [
   {

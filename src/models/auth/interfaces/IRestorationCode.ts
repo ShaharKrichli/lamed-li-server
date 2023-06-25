@@ -1,4 +1,4 @@
 export interface IRestorationCode {
-    userId: string
+    email: string
     code: string;
 }
