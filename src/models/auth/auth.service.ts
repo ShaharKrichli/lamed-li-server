@@ -1,16 +1,11 @@
 // External Libraries
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { config } from 'dotenv';
 
-// Interfaces
-import { IToken } from './interfaces/IToken';
 
 // services
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/common/constants/roles';
-
-
-import { v4 as uuidv4 } from 'uuid';
 
 config();
 @Injectable()
@@ -19,7 +14,19 @@ export class AuthenticationService {
         private jwtService: JwtService,
     ) { }
 
-    async login(userTz: string) {
+    async login(email: string,password: string) {
+
+    }
+
+    async forgotPassword(email: string) {
+
+    }
+
+    async restorationCode(code: string) {
+
+    }
+
+    async resetPassword(password: string) {
 
     }
 }

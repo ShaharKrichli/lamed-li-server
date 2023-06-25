@@ -7,6 +7,8 @@ import { Public } from '../../common/decorators/public.decorator';
 // Authentication
 import { AuthenticationService } from './auth.service';
 import { RequestUser } from 'src/common/interfaces/requestUser.interface';
+import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
+import { ICode, ILogin, IPassword } from './interfaces/IAuth';
 
 @Controller('login')
 export class AuthenticationController {
@@ -14,25 +16,25 @@ export class AuthenticationController {
 
   @Public()
   @Post('/')
-  async login(@Req() req: RequestUser) {
-    return this.authenticationService.login(req.user.tz);
+  async login(@BodyDecoder() body: ILogin) {
+    return this.authenticationService.login(body.email, body.password);
   }
 
   @Public()
   @Post('/forgot-password')
-  async forgotPassword(@Param("tz") tz: string) {
-
+  async forgotPassword(@BodyDecoder() body: IPassword) {
+    return this.authenticationService.forgotPassword(body.password);
   }
 
   @Public()
   @Post('/restoration-code')
-  async restorationCode(@Req() req: RequestUser) {
-    return this.authenticationService.login(req.user.tz);
+  async restorationCode(@BodyDecoder() body: ICode) {
+    return this.authenticationService.restorationCode(body.code);
   }
 
   @Public()
   @Post('/reset-password')
-  async resetPassword(@Req() req: RequestUser) {
-    return this.authenticationService.login(req.user.tz);
+  async resetPassword(@BodyDecoder() body: IPassword) {
+    return this.authenticationService.resetPassword(body.password);
   }
 }
