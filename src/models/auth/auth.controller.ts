@@ -9,6 +9,8 @@ import { AuthenticationService } from './auth.service';
 import { RequestUser } from 'src/common/interfaces/requestUser.interface';
 import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 import { ICode, ILogin, IPassword } from './interfaces/IAuth';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/constants/roles';
 
 @Controller('login')
 export class AuthenticationController {
@@ -26,7 +28,7 @@ export class AuthenticationController {
     return this.authenticationService.forgotPassword(body.password);
   }
 
-  @Public()
+  @Roles(Role.AUTH_PROCESS)
   @Post('/restoration-code')
   async restorationCode(@BodyDecoder() body: ICode) {
     return this.authenticationService.restorationCode(body.code);

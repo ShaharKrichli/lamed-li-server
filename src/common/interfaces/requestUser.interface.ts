@@ -3,8 +3,5 @@ export interface RequestUser extends Request {
 }
 
 export interface IUser {
-	tz: string;
-	pernr: string;
-	roles: string[]
-	analyticsId: string;
+	email: string
 }

@@ -1,6 +1,6 @@
 // Other
-import { IUser } from 'src/models/user/user.interface';
 import { Other } from '../src/models/orm/model.other-entity';
+import { IUser } from 'src/common/interfaces/requestUser.interface';
 
 declare global {
   // From https://stackoverflow.com/a/50375286

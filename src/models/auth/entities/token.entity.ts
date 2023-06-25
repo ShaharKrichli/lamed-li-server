@@ -13,13 +13,13 @@ import { IRestorationCode } from '../interfaces/IRestorationCode';
 // entities
 import { User } from './user.entity';
 
-@Table({ tableName: 'RestorationCodes', updatedAt: false })
-export class RestorationCodes extends Model<RestorationCodes> implements IRestorationCode {
+@Table({ tableName: 'Tokens', updatedAt: false })
+export class Tokens extends Model<Tokens> implements IRestorationCode {
     @PrimaryKey
     @ForeignKey(() => User)
     @Column({ type: DataType.TEXT })
     public email: string;
 
     @Column({ type: DataType.TEXT })
-    public code: string;
+    public token: string;
 }
