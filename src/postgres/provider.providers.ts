@@ -25,7 +25,7 @@ export const databaseProviders = [
         host: process.env.DB_HOST,
         port: 5432,
         schema: 'public',
-        username: 'postgres',
+        username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         dialect: 'postgres',
         models: [FieldsCondition, FieldTypes, FieldValidators,

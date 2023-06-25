@@ -13,7 +13,7 @@ import { IUser } from '../interfaces/IUser';
 // entities
 import { RoleTypes } from './roleTypes.entity';
 
-@Table({ tableName: 'users', updatedAt: false, createdAt: false })
+@Table({ tableName: 'Users', updatedAt: false, createdAt: false })
 export class User extends Model<User> implements IUser {
     @PrimaryKey
     @Column({ type: DataType.TEXT })
