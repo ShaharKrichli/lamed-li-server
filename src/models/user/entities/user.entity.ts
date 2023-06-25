@@ -17,6 +17,9 @@ import { RoleTypes } from './roleTypes.entity';
 export class User extends Model<User> implements IUser {
     @PrimaryKey
     @Column({ type: DataType.TEXT })
+    public userId: string;
+
+    @Column({ type: DataType.TEXT })
     public email: string;
 
     @Column({ type: DataType.TEXT })
