@@ -13,6 +13,8 @@ import { SingleOption } from 'src/models/genericFields/entities/singleOption.ent
 import { SkipDecisionFunc } from 'src/models/genericFields/entities/skipDecisionFunc.entity';
 import { OptionStyle } from 'src/models/genericFields/entities/types/optionStyle.entity';
 import { DropdownOptions } from 'src/models/genericFields/dropdownOptions/entities/dropdownOptions.entity';
+import { User } from 'src/models/user/entities/user.entity';
+import { RoleTypes } from 'src/models/user/entities/roleTypes.entity';
 
 export const databaseProviders = [
   {
@@ -22,30 +24,24 @@ export const databaseProviders = [
         database: process.env.DB_DATABASE,
         host: process.env.DB_HOST,
         port: 5432,
-        schema: ["TEST"].includes(process.env.NODE_ENV!) ? 'test' : 'public',
-        username: process.env.DB_USERNAME,
+        schema: 'public',
+        username: 'postgres',
         password: process.env.DB_PASSWORD,
         dialect: 'postgres',
-        ssl: true,
-        dialectOptions: {
-          ssl: {
-            require: true,
-          },
-        },
         models: [FieldsCondition, FieldTypes, FieldValidators,
           GenericFields, FieldMultOptions, FieldValidatorsTypes, FieldDirectionDisplayType,
           ConditionTypes, EqualConditionOptions, PageTitles, SingleOption, SkipDecisionFunc,
-          , OptionStyle, DropdownOptions
+          , OptionStyle, DropdownOptions, User, RoleTypes
         ]
       });
 
       sequelize.addModels([FieldsCondition, FieldTypes, FieldValidators,
         GenericFields, FieldMultOptions, FieldValidatorsTypes, FieldDirectionDisplayType,
         ConditionTypes, EqualConditionOptions, PageTitles, SingleOption, SkipDecisionFunc,
-        , OptionStyle, DropdownOptions
+        , OptionStyle, DropdownOptions, User, RoleTypes
       ]);
 
-      // await sequelize.sync(); 
+      await sequelize.sync();
       return sequelize;
     },
   }
