@@ -8,7 +8,7 @@ import { Public } from '../../common/decorators/public.decorator';
 import { AuthenticationService } from './auth.service';
 import { RequestUser } from 'src/common/interfaces/requestUser.interface';
 import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
-import { ICode, ILogin, IPassword } from './interfaces/IAuth';
+import { ICode, IEmail, ILogin, IPassword } from './interfaces/IAuth';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/constants/roles';
 
@@ -24,8 +24,8 @@ export class AuthenticationController {
 
   @Public()
   @Post('/forgot-password')
-  async forgotPassword(@BodyDecoder() body: IPassword) {
-    return this.authenticationService.forgotPassword(body.password);
+  async forgotPassword(@BodyDecoder() body: IEmail) {
+    return this.authenticationService.forgotPassword(body.email);
   }
 
   @Roles(Role.AUTH_PROCESS)
@@ -37,6 +37,6 @@ export class AuthenticationController {
   @Roles(Role.RESET_PASSWORD)
   @Post('/reset-password')
   async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return this.authenticationService.resetPassword(body.password);
+    return this.authenticationService.resetPassword(body.password,req.user.email);
   }
 }

@@ -2,7 +2,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 
 // Constants
-import { FIELDS, USER } from '../../common/constants/providers';
+import { USER } from '../../common/constants/providers';
+import { UpdateOptions } from "sequelize";
 
 // Repository
 import { BaseRepositoryORM, ModelType } from '../orm/model.repository-orm';
@@ -15,4 +16,17 @@ export class UserRepository extends BaseRepositoryORM<User> {
     constructor(@Inject(USER) userModel: ModelType<User>) {
         super(userModel);
     }
+
+    async updatePassword(
+        email: string,
+        attributes: Partial<User>,
+        { where, ...options }: UpdateOptions<User> = { where: {} }
+      ) {
+        const [, modules] = await this.module.update<User>(attributes, {
+          ...options,
+          returning: true,
+          where: { email, ...where }
+        });
+        return modules;
+      }
 }

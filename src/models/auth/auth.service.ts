@@ -50,11 +50,13 @@ export class AuthenticationService {
 
     async restorationCode(code: string, email: string) {
         const token = await this.tokenRepository.findByPk(email);
+
         if (!token) {
-            throw new NotFoundException('Email doesnt exist.');
+            throw new NotFoundException('User doesnt exist.');
         }
 
         const isMatch = await bcrypt.compare(code, token.token);
+
         if (!isMatch) {
             throw new NotFoundException('Code doesnt match.');
         }
@@ -65,7 +67,27 @@ export class AuthenticationService {
 
     }
 
-    async resetPassword(password: string) {
+    async resetPassword(password: string, email: string) {
+        const user = await this.userRepository.findByPk(email);
 
+        if (!user) {
+            throw new NotFoundException('User doesnt exist.');
+        }
+
+        const token = await this.tokenRepository.findByPk(email);
+
+        if (!token) {
+            throw new NotFoundException('User doesnt exist.');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
+
+        await this.userRepository.updatePassword(email, { password: hashedPassword });
+
+        await this.tokenRepository.destroy({ where: { email } });
+
+        return {
+            accessToken: this.jwtService.sign({ email, role: user.role }),
+        };
     }
 }

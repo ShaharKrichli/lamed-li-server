@@ -30,9 +30,9 @@ export abstract class BaseRepositoryORM<T extends Model<T>> {
   public async all<
     K extends Keys<T>[number] = undefined,
     R extends Model<R> = Model,
-    >(
-      where?: WhereOptions<T>,
-      relation?: RelationOptions<R>,
+  >(
+    where?: WhereOptions<T>,
+    relation?: RelationOptions<R>,
   ): Promise<ModelOmit<T, K>[]> {
     return await this.module.findAll<T>({
       where: where && serializerWhereOptions<T>(where),
@@ -55,10 +55,10 @@ export abstract class BaseRepositoryORM<T extends Model<T>> {
   public async findByPk<
     K extends Keys<T>[number] = undefined,
     R extends Model<R> = Model,
-    >(
-      id: number | string,
-      options: FindOptions<T> = {},
-      relation?: RelationOptions<R>,
+  >(
+    id: number | string,
+    options: FindOptions<T> = {},
+    relation?: RelationOptions<R>,
   ): Promise<ModelOmit<T, K>> {
     return await this.module.findByPk<T>(id, {
       ...serializerFindOptions(options),
