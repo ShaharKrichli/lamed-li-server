@@ -30,8 +30,8 @@ export class AuthenticationController {
 
   @Roles(Role.AUTH_PROCESS)
   @Post('/restoration-code')
-  async restorationCode(@BodyDecoder() body: ICode) {
-    return this.authenticationService.restorationCode(body.code);
+  async restorationCode(@BodyDecoder() body: ICode, @Req() req: RequestUser,) {
+    return this.authenticationService.restorationCode(body.code,req.user.email);
   }
 
   @Public()

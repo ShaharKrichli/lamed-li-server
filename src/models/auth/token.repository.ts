@@ -15,4 +15,10 @@ export class TokenRepository extends BaseRepositoryORM<Tokens> {
     constructor(@Inject(TOKEN) tokenModel: ModelType<Tokens>) {
         super(tokenModel);
     }
+
+    async findToken(email: string) {
+        return await this.module.findByPk<Tokens>(
+            email
+        );
+    }
 }
