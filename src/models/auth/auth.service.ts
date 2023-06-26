@@ -59,10 +59,6 @@ export class AuthenticationService {
             throw new NotFoundException('Code doesnt match.');
         }
 
-        await this.tokenRepository.destroy({ where: { email } });
-
-        this.tokenRepository.create({ email, token });
-
         return {
             accessToken: this.jwtService.sign({ email, role: Role.RESET_PASSWORD }),
         };

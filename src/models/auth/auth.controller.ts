@@ -31,12 +31,12 @@ export class AuthenticationController {
   @Roles(Role.AUTH_PROCESS)
   @Post('/restoration-code')
   async restorationCode(@BodyDecoder() body: ICode, @Req() req: RequestUser,) {
-    return this.authenticationService.restorationCode(body.code,req.user.email);
+    return this.authenticationService.restorationCode(body.code, req.user.email);
   }
 
-  @Public()
+  @Roles(Role.RESET_PASSWORD)
   @Post('/reset-password')
-  async resetPassword(@BodyDecoder() body: IPassword) {
+  async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
     return this.authenticationService.resetPassword(body.password);
   }
 }
