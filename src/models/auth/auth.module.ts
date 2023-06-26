@@ -12,7 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
     imports: [
         PassportModule,
         JwtModule.register({
-            secret: process.env.TOKEN_SECRET,
+            secret: process.env.JWT_ACCESS_SECRET,
             signOptions: { expiresIn: '1800s' },
         }),
     ],

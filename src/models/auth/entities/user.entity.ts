@@ -5,6 +5,7 @@ import {
     DataType,
     PrimaryKey,
     ForeignKey,
+    AllowNull,
 } from 'sequelize-typescript';
 
 // interfaces
@@ -12,6 +13,7 @@ import { IUser } from '../interfaces/IUser';
 
 // entities
 import { RoleTypes } from './roleTypes.entity';
+import { All } from '@nestjs/common';
 
 @Table({ tableName: 'Users', updatedAt: false, createdAt: false })
 export class User extends Model<User> implements IUser {
@@ -24,6 +26,10 @@ export class User extends Model<User> implements IUser {
 
     @Column({ type: DataType.TEXT })
     public name: string
+
+    @AllowNull
+    @Column({ type: DataType.TEXT })
+    public refreshToken: string
 
     @ForeignKey(() => RoleTypes)
     @Column({ type: DataType.TEXT })

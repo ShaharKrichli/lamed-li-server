@@ -23,6 +23,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 import { JwtStrategy } from './common/strategies/jwt.strategy';
 import { CustomExceptionFilter } from './common/exception/custom-exception';
 import { DatabaseModule } from './postgres/provider.module';
+import { RefreshTokenStrategy } from './common/strategies/refreshToken.strategy';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { DatabaseModule } from './postgres/provider.module';
   ],
   controllers: [AppController],
   providers: [
+    RefreshTokenStrategy,
     JwtStrategy,
     {
       provide: APP_GUARD,

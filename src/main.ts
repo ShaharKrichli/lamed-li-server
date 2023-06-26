@@ -35,7 +35,7 @@ async function bootstrap() {
 
   app.use(session({
     name: 'sessionId',
-    secret: process.env.TOKEN_SECRET,
+    secret: process.env.JWT_ACCESS_SECRET,
     cookie: {
       path: '/',
       secure: true,
