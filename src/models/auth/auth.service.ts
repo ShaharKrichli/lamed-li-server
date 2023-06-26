@@ -26,12 +26,13 @@ export class AuthenticationService {
 
     async forgotPassword(email: string) {
         const user = this.userRepository.findByPk(email);
+        
         if (!user) {
             throw new NotFoundException('Email doesnt exist.');
         }
 
         let token = this.tokenRepository.findByPk(email);
-        
+
         if (token) {
             await this.tokenRepository.destroy({ where: { email } });
         }
