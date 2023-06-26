@@ -39,4 +39,9 @@ export class AuthenticationController {
   async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
     return this.authenticationService.resetPassword(body.password,req.user.email);
   }
+
+  @Post('/refresh-token')
+  async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
+    return this.authenticationService.resetPassword(body.password,req.user.email);
+  }
 }

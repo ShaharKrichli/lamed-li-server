@@ -18,7 +18,7 @@ import { AuthenticationModule } from './models/auth/auth.module';
 import { DropdownOptionsModule } from './models/genericFields/dropdownOptions/dropdownOptions.module';
 
 // guards
-import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { JwtAuthGuard } from './common/guards/jwt.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { JwtStrategy } from './common/strategies/jwt.strategy';
 import { CustomExceptionFilter } from './common/exception/custom-exception';
