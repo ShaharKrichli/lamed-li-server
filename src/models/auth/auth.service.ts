@@ -39,6 +39,8 @@ export class AuthenticationService {
 
         // TODO: send email with restoreCode
 
+        // use shaharkrichli123@gmail.com
+
         token = await bcrypt.hash(restoreCode, Number(process.env.BCRYPT_SALT));
 
         this.tokenRepository.create({ email, token });
