@@ -82,9 +82,10 @@ export class AuthenticationService {
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
 
-        await this.userRepository.updatePassword(email, { password: hashedPassword });
+        await Promise.all([this.userRepository.updatePassword(email, { password: hashedPassword }),
+        this.tokenRepository.destroy({ where: { email } })])
 
-        await this.tokenRepository.destroy({ where: { email } });
+        // TODO: send email that password reset was successful
 
         return {
             accessToken: this.jwtService.sign({ email, role: user.role }),
