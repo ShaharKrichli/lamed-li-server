@@ -15,7 +15,7 @@ import { OptionStyle } from 'src/models/genericFields/entities/types/optionStyle
 import { DropdownOptions } from 'src/models/genericFields/dropdownOptions/entities/dropdownOptions.entity';
 import { User } from 'src/models/auth/entities/user.entity';
 import { RoleTypes } from 'src/models/auth/entities/roleTypes.entity';
-import { RestorationCodes } from 'src/models/auth/entities/token.entity';
+import { Tokens } from 'src/models/auth/entities/token.entity';
 
 export const databaseProviders = [
   {
@@ -32,14 +32,14 @@ export const databaseProviders = [
         models: [FieldsCondition, FieldTypes, FieldValidators,
           GenericFields, FieldMultOptions, FieldValidatorsTypes, FieldDirectionDisplayType,
           ConditionTypes, EqualConditionOptions, PageTitles, SingleOption, SkipDecisionFunc,
-          , OptionStyle, DropdownOptions, User, RoleTypes, RestorationCodes
+          , OptionStyle, DropdownOptions, User, RoleTypes, Tokens
         ]
       });
 
       sequelize.addModels([FieldsCondition, FieldTypes, FieldValidators,
         GenericFields, FieldMultOptions, FieldValidatorsTypes, FieldDirectionDisplayType,
         ConditionTypes, EqualConditionOptions, PageTitles, SingleOption, SkipDecisionFunc,
-        , OptionStyle, DropdownOptions, User, RoleTypes, RestorationCodes
+        , OptionStyle, DropdownOptions, User, RoleTypes, Tokens
       ]);
 
       await sequelize.sync();

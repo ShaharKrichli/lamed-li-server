@@ -31,14 +31,19 @@ export class AuthenticationService {
         }
 
         let token = this.tokenRepository.findByPk(email);
+        
         if (token) {
             await this.tokenRepository.destroy({ where: { email } });
         }
 
         let restoreCode = generateRandomNumber()
+
+        // TODO: send email with restoreCode
+
         token = await bcrypt.hash(restoreCode, Number(process.env.BCRYPT_SALT));
 
         this.tokenRepository.create({ email, token });
+
         return {
             accessToken: this.jwtService.sign({ email, role: Role.AUTH_PROCESS }),
         };
