@@ -115,7 +115,6 @@ export class AuthenticationService {
         return { accessToken, refreshToken };
     }
 
-
     async hashData(data: string) {
         return await bcrypt.hash(data, Number(process.env.BCRYPT_SALT));
     }
