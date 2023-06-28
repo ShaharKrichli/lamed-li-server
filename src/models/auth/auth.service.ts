@@ -4,7 +4,7 @@ import { config } from 'dotenv';
 
 // services
 import { JwtService } from '@nestjs/jwt';
-import { Role } from 'src/common/constants/roles';
+import { ROLE_LITERALS, Role } from 'src/common/constants/roles';
 import { UserRepository } from './user.repository';
 import { generateRandomNumber } from 'src/utilities/global';
 import { TokenRepository } from './token.repository';
@@ -23,12 +23,12 @@ export class AuthenticationService {
 
     async login({ email, password }: AuthDto) {
         const user = await this.userRepository.findByPk(email);
-        if (!user) throw new NotFoundException('Email doesnt exist.');
+        if (!user) throw new NotFoundException('User doesnt exist');
 
         const passwordMatches = await bcrypt.compare(password, user.password);
         if (!passwordMatches) throw new BadRequestException('Password is incorrect');
 
-        const tokens = await this.getTokens(email);
+        const tokens = await this.getTokens(email, user.role);
         await this.updateRefreshToken(email, tokens.refreshToken);
         return tokens;
     }
@@ -36,23 +36,21 @@ export class AuthenticationService {
     async forgotPassword(email: string) {
 
         const user = await this.userRepository.findByPk(email);
-        if (!user) throw new NotFoundException('Email doesnt exist.');
+        if (!user) throw new NotFoundException('User doesnt exist');
 
 
         let token = this.tokenRepository.findByPk(email);
-        if (token) {
-            await this.tokenRepository.destroy({ where: { email } });
-        }
+
+        if (token) await this.tokenRepository.destroy({ where: { email } });
+
 
         let restoreCode = generateRandomNumber()
 
         // TODO: send email with restoreCode
 
-        // use shaharkrichli123@gmail.com
+        const hashedRestoreCode = await this.hashData(restoreCode.toString());
 
-        token = await bcrypt.hash(restoreCode, Number(process.env.BCRYPT_SALT));
-
-        this.tokenRepository.create({ email, token });
+        this.tokenRepository.create({ email, token: hashedRestoreCode });
 
         return {
             accessToken: this.jwtService.sign({ email, role: Role.AUTH_PROCESS }),
@@ -62,15 +60,11 @@ export class AuthenticationService {
     async restorationCode(code: string, email: string) {
         const token = await this.tokenRepository.findByPk(email);
 
-        if (!token) {
-            throw new NotFoundException('User doesnt exist.');
-        }
+        if (!token) throw new NotFoundException('reset password session has over, try again..');
 
         const isMatch = await bcrypt.compare(code, token.token);
 
-        if (!isMatch) {
-            throw new NotFoundException('Code doesnt match.');
-        }
+        if (!isMatch) throw new NotFoundException('Code doesnt match.');
 
         return {
             accessToken: this.jwtService.sign({ email, role: Role.RESET_PASSWORD }),
@@ -81,15 +75,12 @@ export class AuthenticationService {
     async resetPassword(password: string, email: string) {
         const user = await this.userRepository.findByPk(email);
 
-        if (!user) {
-            throw new NotFoundException('User doesnt exist.');
-        }
-
+        if (!user) throw new NotFoundException('User doesnt exist.');
+        
         const token = await this.tokenRepository.findByPk(email);
 
-        if (!token) {
-            throw new NotFoundException('User doesnt exist.');
-        }
+        if (!token) throw new NotFoundException('reser password session has over, try again..');
+        
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
 
@@ -104,20 +95,22 @@ export class AuthenticationService {
     }
 
     async refreshTokens(email: string, refreshToken: string) {
+
         const user = await this.userRepository.findByPk(email);
         if (!user || !user.refreshToken) throw new UnauthorizedException('Access Denied');
+
         let refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
         if (!refreshTokenMatches) throw new UnauthorizedException('Access Denied');
-        const tokens = await this.getTokens(email);
+
+        const tokens = await this.getTokens(email,user.role);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return tokens;
     }
 
 
-    async getTokens(email: string) {
-        // TODO: Need to add prev roles for tokens.
-        const accessToken = this.jwtService.sign({ email }, { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '30m', })
-        const refreshToken = this.jwtService.sign({ email }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '30d', });
+    async getTokens(email: string, role: ROLE_LITERALS) {
+        const accessToken = this.jwtService.sign({ email, role }, { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '30m', })
+        const refreshToken = this.jwtService.sign({ email, role }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
         return { accessToken, refreshToken };
     }
 
@@ -130,7 +123,6 @@ export class AuthenticationService {
         const hashedRefreshToken = await this.hashData(refreshToken);
         await this.userRepository.updateUserTable(email, { refreshToken: hashedRefreshToken, });
     }
-
 
     async logout(email: string) {
         return this.userRepository.update(email, { refreshToken: null });

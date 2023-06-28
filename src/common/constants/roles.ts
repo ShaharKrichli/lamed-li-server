@@ -4,3 +4,6 @@ export enum Role {
   AUTH_PROCESS = 'AUTH_PROCESS',
   RESET_PASSWORD = 'RESET_PASSWORD',
 }
+
+export type ROLE_LITERALS = keyof typeof Role;
+

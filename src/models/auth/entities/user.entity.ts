@@ -13,6 +13,7 @@ import { IUser } from '../interfaces/IUser';
 
 // entities
 import { RoleTypes } from './roleTypes.entity';
+import { ROLE_LITERALS } from 'src/common/constants/roles';
 
 @Table({ tableName: 'Users', updatedAt: false, createdAt: false })
 export class User extends Model<User> implements IUser {
@@ -32,5 +33,5 @@ export class User extends Model<User> implements IUser {
 
     @ForeignKey(() => RoleTypes)
     @Column({ type: DataType.TEXT })
-    public role: string
+    public role: ROLE_LITERALS
 }
