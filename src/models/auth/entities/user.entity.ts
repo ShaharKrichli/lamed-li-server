@@ -13,6 +13,8 @@ import { IUser } from '../interfaces/IUser';
 
 // entities
 import { RoleTypes } from './roleTypes.entity';
+
+// literals
 import { ROLE_LITERALS } from 'src/common/constants/roles';
 
 @Table({ tableName: 'Users', updatedAt: false, createdAt: false })

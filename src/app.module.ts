@@ -1,29 +1,30 @@
-// health
-import { HealthModule } from './health';
-
-// Config
-import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-
 // App
 import { AppController } from './app.controller';
 
 // External libraries
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, } from '@nestjs/common';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { HealthModule } from './health';
+
 
 //modules
 import { GenericFieldsModule } from './models/genericFields/genericFields.module';
 import { PageTitlesModule } from './models/pageTitles/pageTitles.module';
 import { AuthenticationModule } from './models/auth/auth.module';
 import { DropdownOptionsModule } from './models/genericFields/dropdownOptions/dropdownOptions.module';
+import { DatabaseModule } from './postgres/provider.module';
+import { ConfigModule } from '@nestjs/config';
 
 // guards
 import { JwtAuthGuard } from './common/guards/jwt.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+
+// strategies
 import { JwtStrategy } from './common/strategies/jwt.strategy';
-import { CustomExceptionFilter } from './common/exception/custom-exception';
-import { DatabaseModule } from './postgres/provider.module';
 import { RefreshTokenStrategy } from './common/strategies/refreshToken.strategy';
+
+// filters
+import { CustomExceptionFilter } from './common/exception/custom-exception';
 
 @Module({
   imports: [
@@ -54,8 +55,4 @@ import { RefreshTokenStrategy } from './common/strategies/refreshToken.strategy'
   ]
 })
 
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(tokenExperationMiddleware, passportMiddleWare).forRoutes("/login/auth");
-  }
-}
+export class AppModule {}

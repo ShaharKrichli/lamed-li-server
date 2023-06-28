@@ -52,6 +52,7 @@ export class AuthenticationService {
 
         this.tokenRepository.create({ email, token: hashedRestoreCode });
 
+        // TODO: Remember where jwtService get his token from
         return {
             accessToken: this.jwtService.sign({ email, role: Role.AUTH_PROCESS }),
         };
@@ -109,7 +110,7 @@ export class AuthenticationService {
 
 
     async getTokens(email: string, role: ROLE_LITERALS) {
-        const accessToken = this.jwtService.sign({ email, role }, { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '30m', })
+        const accessToken = this.jwtService.sign({ email, role })
         const refreshToken = this.jwtService.sign({ email, role }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
         return { accessToken, refreshToken };
     }
