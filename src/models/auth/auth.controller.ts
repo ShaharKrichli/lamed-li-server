@@ -1,17 +1,26 @@
 // External Libraries
-import { Controller, Post, Param, Req, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards, Get } from '@nestjs/common';
+import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 
 // Decorators
 import { Public } from '../../common/decorators/public.decorator';
-
-// Authentication
-import { AuthenticationService } from './auth.service';
-import { RequestUser } from 'src/common/interfaces/requestUser.interface';
-import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
-import { ICode, IEmail, ILogin, IPassword } from './interfaces/IAuth';
 import { Roles } from 'src/common/decorators/roles.decorator';
+
+// services
+import { AuthenticationService } from './auth.service';
+
+// interfaces
+import { RequestUser } from 'src/common/interfaces/requestUser.interface';
+import { ICode, IEmail, IPassword } from './interfaces/IAuth';
+
+// consts
 import { Role } from 'src/common/constants/roles';
+
+// guard
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
+
+// dto
+import { AuthDto } from './dto/auth.dto';
 
 @Controller('login')
 export class AuthenticationController {
@@ -19,8 +28,8 @@ export class AuthenticationController {
 
   @Public()
   @Post('/')
-  async login(@BodyDecoder() body: ILogin) {
-    return this.authenticationService.login(body.email, body.password);
+  async login(@BodyDecoder() authDto: AuthDto) {
+    return this.authenticationService.login(authDto);
   }
 
   @Public()

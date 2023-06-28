@@ -1,5 +1,5 @@
 // External Libraries
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { config } from 'dotenv';
 
 // services
@@ -8,6 +8,7 @@ import { Role } from 'src/common/constants/roles';
 import { UserRepository } from './user.repository';
 import { generateRandomNumber } from 'src/utilities/global';
 import { TokenRepository } from './token.repository';
+import { AuthDto } from './dto/auth.dto';
 
 const bcrypt = require('bcrypt');
 
@@ -20,15 +21,23 @@ export class AuthenticationService {
         private readonly tokenRepository: TokenRepository
     ) { }
 
-    async login(email: string, password: string) {
+    async login({ email, password }: AuthDto) {
+        const user = await this.userRepository.findByPk(email);
+        if (!user) throw new NotFoundException('Email doesnt exist.');
 
+        const passwordMatches = await bcrypt.compare(password, user.password);
+        if (!passwordMatches) throw new BadRequestException('Password is incorrect');
+
+        const tokens = await this.getTokens(email);
+        await this.updateRefreshToken(email, tokens.refreshToken);
+        return tokens;
     }
 
     async forgotPassword(email: string) {
+
         const user = await this.userRepository.findByPk(email);
-        if (!user) {
-            throw new NotFoundException('Email doesnt exist.');
-        }
+        if (!user) throw new NotFoundException('Email doesnt exist.');
+
 
         let token = this.tokenRepository.findByPk(email);
         if (token) {
@@ -120,5 +129,10 @@ export class AuthenticationService {
     async updateRefreshToken(email: string, refreshToken: string) {
         const hashedRefreshToken = await this.hashData(refreshToken);
         await this.userRepository.updateUserTable(email, { refreshToken: hashedRefreshToken, });
+    }
+
+
+    async logout(email: string) {
+        return this.userRepository.update(email, { refreshToken: null });
     }
 }
