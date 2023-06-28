@@ -17,7 +17,7 @@ export class UserRepository extends BaseRepositoryORM<User> {
         super(userModel);
     }
 
-    async updatePassword(
+    async updateUserTable(
         email: string,
         attributes: Partial<User>,
         { where, ...options }: UpdateOptions<User> = { where: {} }

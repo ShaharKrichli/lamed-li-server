@@ -1,5 +1,5 @@
 // External Libraries
-import { Controller, Post, Param, Req } from '@nestjs/common';
+import { Controller, Post, Param, Req, UseGuards, Get } from '@nestjs/common';
 
 // Decorators
 import { Public } from '../../common/decorators/public.decorator';
@@ -11,6 +11,7 @@ import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 import { ICode, IEmail, ILogin, IPassword } from './interfaces/IAuth';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/constants/roles';
+import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 
 @Controller('login')
 export class AuthenticationController {
@@ -37,11 +38,19 @@ export class AuthenticationController {
   @Roles(Role.RESET_PASSWORD)
   @Post('/reset-password')
   async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return this.authenticationService.resetPassword(body.password,req.user.email);
+    return this.authenticationService.resetPassword(body.password, req.user.email);
   }
 
+  @UseGuards(RefreshTokenGuard)
+  @Public()
   @Post('/refresh-token')
   async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return this.authenticationService.resetPassword(body.password,req.user.email);
+    return this.authenticationService.resetPassword(body.password, req.user.email);
+  }
+
+  @Roles(Role.USER, Role.TEACHER)
+  @Get('logout')
+  logout(@Req() req: RequestUser) {
+    this.authenticationService.logout(req.user.email);
   }
 }

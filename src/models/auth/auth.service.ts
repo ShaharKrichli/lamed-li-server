@@ -1,5 +1,5 @@
 // External Libraries
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { config } from 'dotenv';
 
 // services
@@ -84,7 +84,7 @@ export class AuthenticationService {
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
 
-        await Promise.all([this.userRepository.updatePassword(email, { password: hashedPassword }),
+        await Promise.all([this.userRepository.updateUserTable(email, { password: hashedPassword }),
         this.tokenRepository.destroy({ where: { email } })])
 
         // TODO: send email that password reset was successful
@@ -92,5 +92,33 @@ export class AuthenticationService {
         return {
             accessToken: this.jwtService.sign({ email, role: user.role }),
         };
+    }
+
+    async refreshTokens(email: string, refreshToken: string) {
+        const user = await this.userRepository.findByPk(email);
+        if (!user || !user.refreshToken) throw new UnauthorizedException('Access Denied');
+        let refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
+        if (!refreshTokenMatches) throw new UnauthorizedException('Access Denied');
+        const tokens = await this.getTokens(email);
+        await this.updateRefreshToken(user.id, tokens.refreshToken);
+        return tokens;
+    }
+
+
+    async getTokens(email: string) {
+        // TODO: Need to add prev roles for tokens.
+        const accessToken = this.jwtService.sign({ email }, { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '30m', })
+        const refreshToken = this.jwtService.sign({ email }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '30d', });
+        return { accessToken, refreshToken };
+    }
+
+
+    async hashData(data: string) {
+        return await bcrypt.hash(data, Number(process.env.BCRYPT_SALT));
+    }
+
+    async updateRefreshToken(email: string, refreshToken: string) {
+        const hashedRefreshToken = await this.hashData(refreshToken);
+        await this.userRepository.updateUserTable(email, { refreshToken: hashedRefreshToken, });
     }
 }
