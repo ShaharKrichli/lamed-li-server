@@ -58,34 +58,31 @@ export class AuthenticationService {
         this.tokenRepository.create({ email, token: hashedRestoreCode });
 
         return {
-            accessToken: this.jwtService.sign({ email, role: Role.AUTH_PROCESS }),
+            accessToken: this.jwtService.sign({ email, roles: [Role.AUTH_PROCESS, user.role] }),
         };
     }
 
     async restorationCode(code: string, email: string) {
-        const token = await this.tokenRepository.findByPk(email);
+
+        const [token, user] = await Promise.all([this.tokenRepository.findByPk(email), this.userRepository.findByPk(email)]);
 
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
         const isMatch = await bcrypt.compare(code, token.token);
-
         if (!isMatch) throw new NotFoundException('Code doesnt match.');
 
         return {
-            accessToken: this.jwtService.sign({ email, role: Role.RESET_PASSWORD }),
+            accessToken: this.jwtService.sign({ email, role: [Role.RESET_PASSWORD, user.role] }),
         };
 
     }
 
     async resetPassword(password: string, email: string) {
         const user = await this.userRepository.findByPk(email);
-
         if (!user) throw new NotFoundException('User doesnt exist.');
-        
-        const token = await this.tokenRepository.findByPk(email);
 
-        if (!token) throw new NotFoundException('reser password session has over, try again..');
-        
+        const token = await this.tokenRepository.findByPk(email);
+        if (!token) throw new NotFoundException('reset password session has over, try again..');
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
 
@@ -95,7 +92,7 @@ export class AuthenticationService {
         // TODO: send email that password reset was successful
 
         return {
-            accessToken: this.jwtService.sign({ email, role: user.role }),
+            accessToken: this.jwtService.sign({ email, role: [user.role] }),
         };
     }
 
@@ -107,7 +104,7 @@ export class AuthenticationService {
         let refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
         if (!refreshTokenMatches) throw new UnauthorizedException('Access Denied');
 
-        const tokens = await this.getTokens(email,user.role);
+        const tokens = await this.getTokens(email, user.role);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return tokens;
     }

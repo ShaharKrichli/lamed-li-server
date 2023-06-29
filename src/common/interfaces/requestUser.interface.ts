@@ -1,7 +1,8 @@
 export interface RequestUser extends Request {
-	user: IUser;
+	user: IToken;
 }
 
-export interface IUser {
+export interface IToken {
 	email: string
+	roles: string []
 }

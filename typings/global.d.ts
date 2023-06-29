@@ -1,6 +1,6 @@
 // Other
 import { Other } from '../src/models/orm/model.other-entity';
-import { IUser } from 'src/common/interfaces/requestUser.interface';
+import { IToken } from 'src/common/interfaces/requestUser.interface';
 
 declare global {
   // From https://stackoverflow.com/a/50375286
@@ -27,7 +27,7 @@ declare global {
   namespace Express {
     interface Request {
       id: number;
-      user: IUser
+      user: IToken
     }
   }
 }
