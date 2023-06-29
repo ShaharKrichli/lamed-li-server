@@ -111,8 +111,8 @@ export class AuthenticationService {
 
 
     async getTokens(email: string, role: ROLE_LITERALS) {
-        const accessToken = this.jwtService.sign({ email, role })
-        const refreshToken = this.jwtService.sign({ email, role }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
+        const accessToken = this.jwtService.sign({ email, role: [role] })
+        const refreshToken = this.jwtService.sign({ email, role: [role] }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
         return { accessToken, refreshToken };
     }
 
