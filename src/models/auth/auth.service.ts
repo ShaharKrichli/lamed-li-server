@@ -58,13 +58,13 @@ export class AuthenticationService {
         this.tokenRepository.create({ email, token: hashedRestoreCode });
 
         return {
-            accessToken: this.jwtService.sign({ email, roles: [Role.AUTH_PROCESS, user.role] }),
+            accessToken: this.jwtService.sign({ email, roles: [Role.AUTH_PROCESS] }),
         };
     }
 
     async restorationCode(code: string, email: string) {
 
-        const [token, user] = await Promise.all([this.tokenRepository.findByPk(email), this.userRepository.findByPk(email)]);
+        const token = await this.tokenRepository.findByPk(email)
 
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
@@ -72,15 +72,12 @@ export class AuthenticationService {
         if (!isMatch) throw new NotFoundException('Code doesnt match.');
 
         return {
-            accessToken: this.jwtService.sign({ email, role: [Role.RESET_PASSWORD, user.role] }),
+            accessToken: this.jwtService.sign({ email, role: [Role.RESET_PASSWORD] }),
         };
 
     }
 
     async resetPassword(password: string, email: string) {
-        const user = await this.userRepository.findByPk(email);
-        if (!user) throw new NotFoundException('User doesnt exist.');
-
         const token = await this.tokenRepository.findByPk(email);
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
@@ -90,10 +87,6 @@ export class AuthenticationService {
         this.tokenRepository.destroy({ where: { email } })])
 
         // TODO: send email that password reset was successful
-
-        return {
-            accessToken: this.jwtService.sign({ email, role: [user.role] }),
-        };
     }
 
     async refreshTokens(email: string, refreshToken: string) {
