@@ -4,10 +4,18 @@ import { config } from 'dotenv';
 
 // services
 import { JwtService } from '@nestjs/jwt';
+
+// roles
 import { ROLE_LITERALS, Role } from 'src/common/constants/roles';
-import { UserRepository } from './user.repository';
+
+// utils
 import { generateRandomNumber } from 'src/utilities/global';
+
+// repos
 import { TokenRepository } from './token.repository';
+import { UserRepository } from './user.repository';
+
+// dto
 import { AuthDto } from './dto/auth.dto';
 
 const bcrypt = require('bcrypt');
@@ -38,11 +46,8 @@ export class AuthenticationService {
         const user = await this.userRepository.findByPk(email);
         if (!user) throw new NotFoundException('User doesnt exist');
 
-
         let token = this.tokenRepository.findByPk(email);
-
         if (token) await this.tokenRepository.destroy({ where: { email } });
-
 
         let restoreCode = generateRandomNumber()
 
@@ -52,7 +57,6 @@ export class AuthenticationService {
 
         this.tokenRepository.create({ email, token: hashedRestoreCode });
 
-        // TODO: Remember where jwtService get his token from
         return {
             accessToken: this.jwtService.sign({ email, role: Role.AUTH_PROCESS }),
         };
