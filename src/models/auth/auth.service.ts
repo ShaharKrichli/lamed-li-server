@@ -9,6 +9,8 @@ import { UserRepository } from './user.repository';
 import { generateRandomNumber } from 'src/utilities/global';
 import { TokenRepository } from './token.repository';
 import { AuthDto } from './dto/auth.dto';
+import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
+import { mailType } from 'src/utilities/nodemailer/nodemailerConst';
 
 const bcrypt = require('bcrypt');
 
@@ -46,7 +48,8 @@ export class AuthenticationService {
 
         let restoreCode = generateRandomNumber()
 
-        // TODO: send email with restoreCode
+        // TODO: get username to send, check what to do with the res.
+        let res = await sendEmail({userEmail: email, mailType: mailType.FORGET_PASSWORD, param1: restoreCode})
 
         const hashedRestoreCode = await this.hashData(restoreCode.toString());
 
@@ -88,7 +91,8 @@ export class AuthenticationService {
         await Promise.all([this.userRepository.updateUserTable(email, { password: hashedPassword }),
         this.tokenRepository.destroy({ where: { email } })])
 
-        // TODO: send email that password reset was successful
+        // TODO: check what to do with the response.
+        let res = await sendEmail({userEmail: email, mailType: mailType.RESET_SUCCESS, param1: password})
 
         return {
             accessToken: this.jwtService.sign({ email, role: user.role }),
