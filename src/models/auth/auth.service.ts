@@ -17,6 +17,7 @@ import { UserRepository } from './user.repository';
 
 // dto
 import { AuthDto } from './dto/auth.dto';
+import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
 
 const bcrypt = require('bcrypt');
 
@@ -51,7 +52,8 @@ export class AuthenticationService {
 
         let restoreCode = generateRandomNumber()
 
-        // TODO: send email with restoreCode
+        // TODO: get username to send, check what to do with the res.
+        // let res = await sendEmail({ userEmail: email, mailType: mailType.FORGET_PASSWORD, param1: restoreCode })
 
         const hashedRestoreCode = await this.hashData(restoreCode.toString());
 
