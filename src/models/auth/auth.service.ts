@@ -72,7 +72,7 @@ export class AuthenticationService {
         if (!isMatch) throw new NotFoundException('Code doesnt match.');
 
         return {
-            accessToken: this.jwtService.sign({ email, role: [Role.RESET_PASSWORD] }),
+            accessToken: this.jwtService.sign({ email, roles: [Role.RESET_PASSWORD] }),
         };
 
     }
@@ -102,10 +102,16 @@ export class AuthenticationService {
         return tokens;
     }
 
+    async ss() {
+        const refreshToken = this.jwtService.sign({ email: 'shaharkrichli123@gmail.com', roles: 'TEACHER' }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '21d', });
+        console.log(refreshToken)
+        console.log(await this.hashData('admin123'))
+    }
+
 
     async getTokens(email: string, role: ROLE_LITERALS) {
-        const accessToken = this.jwtService.sign({ email, role: [role] })
-        const refreshToken = this.jwtService.sign({ email, role: [role] }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
+        const accessToken = this.jwtService.sign({ email, roles: [role] })
+        const refreshToken = this.jwtService.sign({ email, roles: [role] }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d', });
         return { accessToken, refreshToken };
     }
 

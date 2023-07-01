@@ -62,4 +62,11 @@ export class AuthenticationController {
   logout(@Req() req: RequestUser) {
     this.authenticationService.logout(req.user.email.toLowerCase());
   }
+
+
+  @Public()
+  @Post('/loginForTest')
+  async shahar() {
+    return this.authenticationService.ss();
+  }
 }

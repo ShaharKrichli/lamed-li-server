@@ -8,7 +8,7 @@ import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 @Public()
 @Controller()
 export class AppController {
-  @Get()
+  @Get('/')
   getOK(@Res() res: Response) {
     res.status(HttpStatus.OK).send('Lamed li service is up and running!');
   }

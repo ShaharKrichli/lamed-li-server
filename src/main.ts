@@ -25,13 +25,13 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('/api');
   app.useGlobalInterceptors(new SerializeInterceptor());
-  
+
   const server = http.createServer(app.getHttpAdapter().getInstance());
 
   server.timeout = 6000
 
   app.use(json({ limit: '5mb' }));
-  app.use(compression()); 
+  app.use(compression());
 
   app.use(session({
     name: 'sessionId',
@@ -45,12 +45,12 @@ async function bootstrap() {
   }))
 
   app.use(helmet());
-  
-  app.disable('x-powered-by');
-  
-  app.useGlobalPipes(new ValidationPipe({ transform: true,disableErrorMessages: true }));
 
- await app.listen(process.env.PORT);
+  app.disable('x-powered-by');
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: true }));
+
+  await app.listen(process.env.PORT);
 
   console.log(`Application is running on: ${await app.getUrl()}`);
   console.log(`Health check on: ${await app.getUrl()}/health`);
