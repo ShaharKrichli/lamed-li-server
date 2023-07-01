@@ -103,7 +103,7 @@ export class AuthenticationService {
     }
 
     async ss() {
-        const refreshToken = this.jwtService.sign({ email: 'shaharkrichli123@gmail.com', roles: 'TEACHER' }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '21d', });
+        const refreshToken = this.jwtService.sign({ email: 'shimon.chay.s@gmail.com', roles: 'TEACHER' }, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '21d', });
         console.log(refreshToken)
         console.log(await this.hashData('admin123'))
     }
