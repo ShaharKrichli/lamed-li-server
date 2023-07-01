@@ -2,45 +2,29 @@
 const nodemailer = require("nodemailer");
 
 // interfaces
-import { INodemailerProps } from "./INodemailerProps.interface";
-
-// utils
-import { getResetPasswordHtml, getResetSuccessHtml } from "./mailHtml";
+import { INodemailer } from "./nodeMailer.interface";
 
 // const
-import { senderEmail, senderPassword, host } from "./nodemailerConst";
+import { HOST, SENDER_EMAIL, SENDER_PASSWORD, mailTypesMap } from "./nodeMailer.data";
 
-const mailTypesMap = {
-    forgetPassword: {
-        subject: 'forget password',
-        mailText: 'forget password',
-        htmlFunction: getResetPasswordHtml
-    },
-    resetSuccess: {
-        subject: 'reset success',
-        mailText: 'reset success',
-        htmlFunction: getResetSuccessHtml
-    }
-}
+export const sendEmail = async ({ mailType, userEmail, param1, param2 }: INodemailer) => {
+    const transporter = nodemailer.createTransport({
+        host: HOST,
+        port: 465,
+        secure: true,
+        auth: {
+            user: SENDER_EMAIL,
+            pass: SENDER_PASSWORD
+        }
+    });
 
-export const sendEmail = async (mailData: INodemailerProps) => {
-  const transporter = nodemailer.createTransport({
-      host: host,
-      port: 465,
-      secure: true,
-      auth: { 
-          user: senderEmail,
-          pass: senderPassword
-      }
-  });
+    const res = await transporter.sendMail({
+        from: SENDER_EMAIL,
+        to: userEmail,
+        subject: mailTypesMap[mailType].subject,
+        text: mailTypesMap[mailType].text,
+        html: mailTypesMap[mailType].html(param1, param2)
+    });
 
-  const res = await transporter.sendMail({
-      from: senderEmail,
-      to: mailData.userEmail,
-      subject: mailTypesMap[mailData.mailType].subject,
-      text: mailTypesMap[mailData.mailType].mailText,
-      html: mailTypesMap[mailData.mailType].htmlFunction(mailData.param1, mailData.param2)
-  });
-
-  return res;
+    return res;
 }

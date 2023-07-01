@@ -10,7 +10,7 @@ import { generateRandomNumber } from 'src/utilities/global';
 import { TokenRepository } from './token.repository';
 import { AuthDto } from './dto/auth.dto';
 import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
-import { mailType } from 'src/utilities/nodemailer/nodemailerConst';
+import { mailType } from 'src/utilities/nodemailer/nodeMailer.data';
 
 const bcrypt = require('bcrypt');
 
@@ -49,7 +49,7 @@ export class AuthenticationService {
         let restoreCode = generateRandomNumber()
 
         // TODO: get username to send, check what to do with the res.
-        let res = await sendEmail({userEmail: email, mailType: mailType.FORGET_PASSWORD, param1: restoreCode})
+        let res = await sendEmail({ userEmail: email, mailType: mailType.FORGET_PASSWORD, param1: restoreCode })
 
         const hashedRestoreCode = await this.hashData(restoreCode.toString());
 
@@ -80,11 +80,11 @@ export class AuthenticationService {
         const user = await this.userRepository.findByPk(email);
 
         if (!user) throw new NotFoundException('User doesnt exist.');
-        
+
         const token = await this.tokenRepository.findByPk(email);
 
         if (!token) throw new NotFoundException('reser password session has over, try again..');
-        
+
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
 
@@ -92,7 +92,7 @@ export class AuthenticationService {
         this.tokenRepository.destroy({ where: { email } })])
 
         // TODO: check what to do with the response.
-        let res = await sendEmail({userEmail: email, mailType: mailType.RESET_SUCCESS, param1: password})
+        let res = await sendEmail({ userEmail: email, mailType: mailType.RESET_SUCCESS, param1: password })
 
         return {
             accessToken: this.jwtService.sign({ email, role: user.role }),
@@ -107,7 +107,7 @@ export class AuthenticationService {
         let refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
         if (!refreshTokenMatches) throw new UnauthorizedException('Access Denied');
 
-        const tokens = await this.getTokens(email,user.role);
+        const tokens = await this.getTokens(email, user.role);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return tokens;
     }
