@@ -511,7 +511,7 @@ export const getResetPasswordHtml = (user: string, resetCode: number) => {
     </html>`
 }
 
-export const getResetSuccessHtml = (password: string) => {
+export const getResetSuccessHtml = () => {
     return `
     <!doctype html>
     <html lang="en-US">
@@ -555,7 +555,7 @@ export const getResetSuccessHtml = (password: string) => {
                                                 your new password is:.
                                             </p>
                                             <a href="javascript:void(0);"
-                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">${password}
+                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                                 </a>
                                         </td>
                                     </tr>

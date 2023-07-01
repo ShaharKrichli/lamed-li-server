@@ -19,10 +19,10 @@ import { authProviders } from './auth.providers';
         PassportModule,
         JwtModule.register({
             secret: process.env.JWT_ACCESS_SECRET,
-            signOptions: { expiresIn: '1800s' },
+            signOptions: { expiresIn: '30m' },
         }),
     ],
-    providers: [AuthenticationService,TokenRepository,UserRepository,...authProviders],
+    providers: [AuthenticationService, TokenRepository, UserRepository, ...authProviders],
     controllers: [AuthenticationController],
 })
 export class AuthenticationModule { }

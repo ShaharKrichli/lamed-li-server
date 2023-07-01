@@ -7,7 +7,7 @@ import { INodemailer } from "./nodeMailer.interface";
 // const
 import { HOST, SENDER_EMAIL, SENDER_PASSWORD, mailTypesMap } from "./nodeMailer.data";
 
-export const sendEmail = async ({ mailType, userEmail, param1, param2 }: INodemailer) => {
+export const sendEmail = async ({ mailType, userEmail, param1, param2}: INodemailer) => {
     const transporter = nodemailer.createTransport({
         host: HOST,
         port: 465,

@@ -18,6 +18,7 @@ import { UserRepository } from './user.repository';
 // dto
 import { AuthDto } from './dto/auth.dto';
 import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
+import { MAIL_TYPE, MAIL_TYPE_LITERALS } from 'src/utilities/nodemailer/nodeMailer.data';
 
 const bcrypt = require('bcrypt');
 
@@ -50,12 +51,11 @@ export class AuthenticationService {
         let token = this.tokenRepository.findByPk(email);
         if (token) await this.tokenRepository.destroy({ where: { email } });
 
-        let restoreCode = generateRandomNumber()
+        let restoreCode = generateRandomNumber().toString()
 
-        // TODO: get username to send, check what to do with the res.
-        // let res = await sendEmail({ userEmail: email, mailType: mailType.FORGET_PASSWORD, param1: restoreCode })
+        sendEmail({ mailType: MAIL_TYPE.FORGET_PASSWORD, userEmail: email, param1: restoreCode })
 
-        const hashedRestoreCode = await this.hashData(restoreCode.toString());
+        const hashedRestoreCode = await this.hashData(restoreCode);
 
         this.tokenRepository.create({ email, token: hashedRestoreCode });
 
@@ -88,7 +88,7 @@ export class AuthenticationService {
         await Promise.all([this.userRepository.updateUserTable(email, { password: hashedPassword }),
         this.tokenRepository.destroy({ where: { email } })])
 
-        // TODO: send email that password reset was successful
+        sendEmail({ mailType: MAIL_TYPE.RESET_SUCCESS, userEmail: email })
     }
 
     async refreshTokens(email: string, refreshToken: string) {

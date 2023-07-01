@@ -5,7 +5,6 @@ export const SENDER_EMAIL = 'neekoreal1@gmail.com'
 export const SENDER_PASSWORD = 'hyjpbanxsnrbnrve'
 export const HOST = 'smtp.gmail.com'
 
-
 // TODO: resposne expample from nodemailer.
 // const mailRes = {
 //     accepted: [ 'shimon.chay.s@gmail.com' ],
@@ -28,9 +27,9 @@ export const HOST = 'smtp.gmail.com'
 //   }
 
 
-export const MAIL_TYPE = {
-    RESET_SUCCESS: 'resetSuccess',
-    FORGET_PASSWORD: 'forgetPassword'
+export enum MAIL_TYPE {
+    RESET_SUCCESS = 'RESET_SUCCESS',
+    FORGET_PASSWORD = 'FORGET_PASSWORD'
 }
 
 export type MAIL_TYPE_LITERALS = keyof typeof MAIL_TYPE;
