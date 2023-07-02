@@ -29,38 +29,38 @@ export class AuthenticationController {
   @Public()
   @Post('/')
   async login(@BodyDecoder() authDto: AuthDto) {
-    return this.authenticationService.login(authDto);
+    return await this.authenticationService.login(authDto);
   }
 
   @Public()
   @Post('/forgot-password')
   async forgotPassword(@BodyDecoder() body: IEmail) {
-    return this.authenticationService.forgotPassword(body.email.toLowerCase());
+    return await this.authenticationService.forgotPassword(body.email.toLowerCase());
   }
 
   @Roles(Role.AUTH_PROCESS)
   @Post('/restoration-code')
   async restorationCode(@BodyDecoder() body: ICode, @Req() req: RequestUser,) {
-    return this.authenticationService.restorationCode(body.code, req.user.email.toLowerCase());
+    return await this.authenticationService.restorationCode(body.code, req.user.email.toLowerCase());
   }
 
   @Roles(Role.RESET_PASSWORD)
   @Post('/reset-password')
   async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
+    return await this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
   }
 
   @UseGuards(RefreshTokenGuard)
   @Roles(Role.USER, Role.TEACHER)
   @Post('/refresh-token')
   async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
+    return await this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
   }
 
   @Roles(Role.USER, Role.TEACHER)
-  @Get('logout')
-  logout(@Req() req: RequestUser) {
-    this.authenticationService.logout(req.user.email.toLowerCase());
+  @Get('/logout')
+  async logout(@Req() req: RequestUser) {
+    return await this.authenticationService.logout(req.user.email.toLowerCase());
   }
 
 
