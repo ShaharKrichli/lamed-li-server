@@ -16,7 +16,7 @@ import { TokenRepository } from './token.repository';
 import { UserRepository } from './user.repository';
 
 // dto
-import { AuthDto } from './dto/auth.dto';
+import { AuthDto, CodeDto, PasswordDto } from './dto/auth.dto';
 import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
 import { MAIL_TYPE, MAIL_TYPE_LITERALS } from 'src/utilities/nodemailer/nodeMailer.data';
 
@@ -43,7 +43,7 @@ export class AuthenticationService {
         return tokens;
     }
 
-    async forgotPassword(email: string) {
+    async forgotPassword({email}:AuthDto) {
 
         const user = await this.userRepository.findByPk(email);
         if (!user) throw new NotFoundException('User doesnt exist');
@@ -62,15 +62,15 @@ export class AuthenticationService {
         return {
             accessToken: this.jwtService.sign({ email, roles: [Role.AUTH_PROCESS] }),
         };
-    }
+    } 
 
-    async restorationCode(code: string, email: string) {
+    async restorationCode({code}:CodeDto, {email}:AuthDto) {
 
         const token = await this.tokenRepository.findByPk(email)
 
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
-        const isMatch = await bcrypt.compare(code, token.token);
+        const isMatch = await bcrypt.compare(code,token.token);
         if (!isMatch) throw new NotFoundException('Code doesnt match.');
 
         return {
@@ -79,7 +79,7 @@ export class AuthenticationService {
 
     }
 
-    async resetPassword(password: string, email: string) {
+    async resetPassword({password}:PasswordDto,{email}:AuthDto) {
         const token = await this.tokenRepository.findByPk(email);
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
@@ -91,7 +91,7 @@ export class AuthenticationService {
         sendEmail({ mailType: MAIL_TYPE.RESET_SUCCESS, userEmail: email })
     }
 
-    async refreshTokens(email: string, refreshToken: string) {
+    async refreshTokens({email}:AuthDto, refreshToken: string) {
 
         const user = await this.userRepository.findByPk(email);
         if (!user || !user.refreshToken) throw new UnauthorizedException('Access Denied');
