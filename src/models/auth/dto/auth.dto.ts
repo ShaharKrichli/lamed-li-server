@@ -9,6 +9,7 @@ export class AuthDto {
     email: string;
 
     @IsNotEmpty()
+    @ContainsPasswordCriteria()
     password:string;
   }
 

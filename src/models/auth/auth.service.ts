@@ -63,7 +63,7 @@ export class AuthenticationService {
             accessToken: this.jwtService.sign({ email, roles: [Role.AUTH_PROCESS] }),
         };
     } 
-
+    
     async restorationCode({code}:CodeDto, {email}:AuthDto) {
 
         const token = await this.tokenRepository.findByPk(email);
