@@ -16,7 +16,6 @@ import { RoleTypes } from './roleTypes.entity';
 
 // literals
 import { ROLE_LITERALS } from 'src/common/constants/roles';
-import { isEmail } from 'class-validator';
 
 @Table({ tableName: 'Users', updatedAt: false, createdAt: false })
 export class User extends Model<User> implements IUser {

@@ -66,8 +66,7 @@ export class AuthenticationService {
 
     async restorationCode({code}:CodeDto, {email}:AuthDto) {
 
-        const token = await this.tokenRepository.findByPk(email)
-
+        const token = await this.tokenRepository.findByPk(email);
         if (!token) throw new NotFoundException('reset password session has over, try again..');
 
         const isMatch = await bcrypt.compare(code,token.token);

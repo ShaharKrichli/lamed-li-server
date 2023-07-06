@@ -11,7 +11,6 @@ import { AuthenticationService } from './auth.service';
 
 // interfaces
 import { RequestUser } from 'src/common/interfaces/requestUser.interface';
-import { ICode, IEmail, IPassword } from './interfaces/IAuth';
 
 // consts
 import { Role } from 'src/common/constants/roles';
