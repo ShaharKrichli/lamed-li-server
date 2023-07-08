@@ -25,7 +25,6 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('/api');
   app.useGlobalInterceptors(new SerializeInterceptor());
-  app.useGlobalPipes(new ValidationPipe());
   const server = http.createServer(app.getHttpAdapter().getInstance());
 
   server.timeout = 6000
@@ -48,7 +47,7 @@ async function bootstrap() {
 
   app.disable('x-powered-by');
 
-  // app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: true }));
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.listen(process.env.PORT);
 
