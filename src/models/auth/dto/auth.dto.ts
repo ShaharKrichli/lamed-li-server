@@ -10,11 +10,17 @@ import { emptyMessge, specialcharerctersMessge } from "src/common/constants/DtoM
 
 export class AuthDto {
     @IsEmail()
+    @IsNotEmpty({message:emptyMessge})
     email: string;
 
     @IsNotEmpty({message:emptyMessge})
     @ContainsPasswordCriteria({message:specialcharerctersMessge})
     password:string;
+
+    @IsNotEmpty({message:emptyMessge})
+    name: string;
+
+
   }
 
 export class PasswordDto{

@@ -44,10 +44,10 @@ import { CustomExceptionFilter } from './common/exception/custom-exception';
       provide: APP_GUARD,
       useClass: JwtAuthGuard
     },
-    {
-      provide: APP_FILTER,
-      useClass: CustomExceptionFilter
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: CustomExceptionFilter
+    // },
     {
       provide: APP_GUARD,
       useClass: RolesGuard

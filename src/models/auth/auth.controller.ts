@@ -30,7 +30,11 @@ export class AuthenticationController {
   async login(@BodyDecoder() authDto: AuthDto) {
     return await this.authenticationService.login(authDto);
   }
-
+  @Public()
+  @Post('/register')
+  async register(@Body() authDto:AuthDto){
+    return await this.authenticationService.register(authDto);
+  }
   @Public()
   @Post('/forgot-password')
   async forgotPassword(@BodyDecoder() authDto:AuthDto) {

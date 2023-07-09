@@ -1,5 +1,5 @@
 // External Libraries
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { config } from 'dotenv';
 
 // services
@@ -30,6 +30,34 @@ export class AuthenticationService {
         private readonly userRepository: UserRepository,
         private readonly tokenRepository: TokenRepository
     ) { }
+
+    async register(authDto: AuthDto) {
+        const { email, password, name } = authDto;
+        const checkUser = await this.userRepository.findByPk(email);
+        if (checkUser) {
+          throw new Error('המשתמש כבר רשום');
+        }
+      
+        const hashedPassword = await bcrypt.hash(password, 10);
+      
+        const newUser = this.userRepository.create({
+          email,
+          password: hashedPassword,
+          name,
+          role: Role.USER,
+        });
+      
+        const savedUser = await this.userRepository.create(newUser);
+        sendEmail({ mailType: MAIL_TYPE.REGISTER_SUCCESS, userEmail: email})
+        const token = this.jwtService.sign({ email: savedUser.email });
+      
+        return {
+          message: 'Register success',
+          token,
+          status: HttpStatus.CREATED,
+        };
+      }
+      
 
     async login({ email, password }: AuthDto) {
         const user = await this.userRepository.findByPk(email);
