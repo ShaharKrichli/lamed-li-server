@@ -1,4 +1,4 @@
-import { getResetPasswordHtml, getResetSuccessHtml } from "./mailHtml";
+import { getRegisterSuccessHtml, getResetPasswordHtml, getResetSuccessHtml } from "./mailHtml";
 import { IMailData } from "./nodeMailer.interface";
 
 export const SENDER_EMAIL = 'neekoreal1@gmail.com'
@@ -29,7 +29,8 @@ export const HOST = 'smtp.gmail.com'
 
 export enum MAIL_TYPE {
     RESET_SUCCESS = 'RESET_SUCCESS',
-    FORGET_PASSWORD = 'FORGET_PASSWORD'
+    FORGET_PASSWORD = 'FORGET_PASSWORD',
+    REGISTER_SUCCESS= 'REGISTER_SUCCESS'
 }
 
 export type MAIL_TYPE_LITERALS = keyof typeof MAIL_TYPE;
@@ -46,5 +47,10 @@ export const mailTypesMap: mailTypeManager = {
         subject: 'שחזור הסיסמה הצליח',
         text: 'שחזור הסיסמה הצליח',
         html: getResetSuccessHtml
+    },
+    REGISTER_SUCCESS:{
+        subject: 'הרשמה בהצלחה',
+        text: 'נרשמת בהצלחה',
+        html: getRegisterSuccessHtml
     }
 }

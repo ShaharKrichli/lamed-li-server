@@ -5,19 +5,21 @@ import isEmail from 'validator/lib/isEmail'
 
 //custom-decorators
 import { ContainsPasswordCriteria } from "src/common/decorators/contains-password-criteria.decorator";
+//Messeges
+import { emptyMessge, specialcharerctersMessge } from "src/common/constants/DtoMessges";
 
 export class AuthDto {
     @IsEmail()
     email: string;
 
-    @IsNotEmpty({message:"אי אפשר להשאיר ריק"})
-    @ContainsPasswordCriteria({message:"הסיסמה חייבת להכיל לפחות את אות אנגלית אחת גדולה, אות אנגלית  אחת קטנה, ספרה אחת וסימן מיוחד(!@#$%^&*(),.?) אחד"})
+    @IsNotEmpty({message:emptyMessge})
+    @ContainsPasswordCriteria({message:specialcharerctersMessge})
     password:string;
   }
 
 export class PasswordDto{
-  @IsNotEmpty({message:"אי אפשר להשאיר ריק"})
-  @ContainsPasswordCriteria({message:"הסיסמה חייבת להכיל לפחות את אות אנגלית אחת גדולה, אות אנגלית  אחת קטנה, ספרה אחת וסימן מיוחד(!@#$%^&*(),.?) אחד"})
+  @IsNotEmpty({message:emptyMessge})
+  @ContainsPasswordCriteria({message:specialcharerctersMessge})
   password: string;
 }
 
