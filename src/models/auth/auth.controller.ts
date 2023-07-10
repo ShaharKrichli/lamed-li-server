@@ -1,5 +1,5 @@
 // External Libraries
-import { Controller, Post, Req, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards, Get, Body } from '@nestjs/common';
 import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 
 // Decorators
@@ -11,7 +11,6 @@ import { AuthenticationService } from './auth.service';
 
 // interfaces
 import { RequestUser } from 'src/common/interfaces/requestUser.interface';
-import { ICode, IEmail, IPassword } from './interfaces/IAuth';
 
 // consts
 import { Role } from 'src/common/constants/roles';
@@ -20,7 +19,7 @@ import { Role } from 'src/common/constants/roles';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 
 // dto
-import { AuthDto } from './dto/auth.dto';
+import { AuthDto, CodeDto, PasswordDto } from './dto/auth.dto';
 
 @Controller('login')
 export class AuthenticationController {
@@ -34,27 +33,27 @@ export class AuthenticationController {
 
   @Public()
   @Post('/forgot-password')
-  async forgotPassword(@BodyDecoder() body: IEmail) {
-    return await this.authenticationService.forgotPassword(body.email.toLowerCase());
+  async forgotPassword(@BodyDecoder() authDto:AuthDto) {
+    return await this.authenticationService.forgotPassword(authDto);
   }
 
   @Roles(Role.AUTH_PROCESS)
   @Post('/restoration-code')
-  async restorationCode(@BodyDecoder() body: ICode, @Req() req: RequestUser,) {
-    return await this.authenticationService.restorationCode(body.code, req.user.email.toLowerCase());
+  async restorationCode(@BodyDecoder() codeDto:CodeDto, @Req() authDto:AuthDto,) {
+    return await this.authenticationService.restorationCode(codeDto,authDto );
   }
 
   @Roles(Role.RESET_PASSWORD)
   @Post('/reset-password')
-  async resetPassword(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return await this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
+  async resetPassword(@BodyDecoder() passwordDto:PasswordDto, @Req() authDto:AuthDto) {
+    return await this.authenticationService.resetPassword(passwordDto, authDto);
   }
 
   @UseGuards(RefreshTokenGuard)
   @Roles(Role.USER, Role.TEACHER)
   @Post('/refresh-token')
-  async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return await this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
+  async refreshToken(@BodyDecoder() passwordDto:PasswordDto, @Req() authDto:AuthDto) {
+    return await this.authenticationService.resetPassword(passwordDto, authDto);
   }
 
   @Roles(Role.USER, Role.TEACHER)
