@@ -54,7 +54,7 @@ export class AuthenticationController {
   @Roles(Role.USER, Role.TEACHER)
   @Post('/refresh-token')
   async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return await this.authenticationService.resetPassword(body.password, req.user.email.toLowerCase());
+    return await this.authenticationService.refreshTokens(body.password, req.user.email.toLowerCase());
   }
 
   @Roles(Role.USER, Role.TEACHER)
@@ -62,7 +62,6 @@ export class AuthenticationController {
   async logout(@Req() req: RequestUser) {
     return await this.authenticationService.logout(req.user.email.toLowerCase());
   }
-
 
   @Public()
   @Post('/loginForTest')
