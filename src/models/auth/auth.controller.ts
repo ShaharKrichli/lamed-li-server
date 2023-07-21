@@ -53,8 +53,8 @@ export class AuthenticationController {
   @UseGuards(RefreshTokenGuard)
   @Roles(Role.USER, Role.TEACHER)
   @Post('/refresh-token')
-  async refreshToken(@BodyDecoder() body: IPassword, @Req() req: RequestUser) {
-    return await this.authenticationService.refreshTokens(body.password, req.user.email.toLowerCase());
+  async refreshToken(@Req() req: RequestUser) {
+    return await this.authenticationService.refreshTokens(req.user.email.toLowerCase(),req.user?.refreshToken);
   }
 
   @Roles(Role.USER, Role.TEACHER)

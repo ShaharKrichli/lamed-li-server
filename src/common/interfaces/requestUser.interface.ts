@@ -4,5 +4,6 @@ export interface RequestUser extends Request {
 
 export interface IToken {
 	email: string
-	roles: string []
+	roles: string[]
+	refreshToken: string
 }
