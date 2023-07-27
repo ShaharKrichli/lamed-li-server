@@ -1,14 +1,14 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 
 //services
-import { TeacherService } from './teacher.service';
+import { TeacherService } from './teachers.service';
 
 //commons
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/constants/roles';
 import { Public } from 'src/common/decorators/public.decorator';
 
-@Controller('teacher')
+@Controller('teachers')
 export class TeachersController {
     constructor(private readonly teacherService: TeacherService) { }
 
