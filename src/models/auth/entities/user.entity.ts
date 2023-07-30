@@ -36,4 +36,7 @@ export class User extends Model<User> implements IUser {
     @ForeignKey(() => RoleTypes)
     @Column({ type: DataType.TEXT })
     public role: ROLE_LITERALS
+
+    @Column({ type: DataType.BOOLEAN })
+    public googleLogin: boolean
 }

@@ -19,6 +19,7 @@ import { UserRepository } from './user.repository';
 import { AuthDto } from './dto/auth.dto';
 import { sendEmail } from 'src/utilities/nodemailer/nodemailer';
 import { MAIL_TYPE, MAIL_TYPE_LITERALS } from 'src/utilities/nodemailer/nodeMailer.data';
+import { IUser } from './interfaces/IUser';
 
 const bcrypt = require('bcrypt');
 
@@ -40,6 +41,40 @@ export class AuthenticationService {
 
         const tokens = await this.getTokens(email, user.role);
         await this.updateRefreshToken(email, tokens.refreshToken);
+        return tokens;
+    }
+
+    async googleRegister(user: IUser) {
+        const { email, password, name } = user;
+        const checkUser = await this.userRepository.findByPk(email);
+        if (checkUser) throw new Error('המשתמש כבר רשום');
+      
+        const hashedPassword = await bcrypt.hash(password, 10);
+      
+        const newUser = this.userRepository.create({
+          email,
+          password: hashedPassword,
+          name,
+          role: Role.USER,
+          googleLogin: true
+        });
+      
+        await this.userRepository.create(newUser);
+        sendEmail({ mailType: 'RESET_SUCCESS', userEmail: email})
+        const tokens = await this.getTokens(email, user.role);
+      
+        return tokens
+      }
+
+    async googleLogin(user: IUser) {
+        const exsitingUser = await this.userRepository.findByPk(user.email);
+        if (!exsitingUser) return this.googleRegister(user) // create user here with googleLogin.
+
+        const passwordMatches = await bcrypt.compare(user.password, exsitingUser.password);
+        if (!passwordMatches) throw new BadRequestException('Something went wrong, pleas contect as.');
+
+        const tokens = await this.getTokens(user.email, user.role);
+        await this.updateRefreshToken(user.email, tokens.refreshToken);
         return tokens;
     }
 

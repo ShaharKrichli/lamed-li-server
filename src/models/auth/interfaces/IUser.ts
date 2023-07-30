@@ -6,4 +6,5 @@ export interface IUser {
     name: string;
     role: ROLE_LITERALS;
     refreshToken?: string;
+    googleLogin: boolean;
 }

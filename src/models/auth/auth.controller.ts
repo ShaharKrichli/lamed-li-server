@@ -21,6 +21,7 @@ import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 
 // dto
 import { AuthDto } from './dto/auth.dto';
+import { IUser } from './interfaces/IUser';
 
 @Controller('login')
 export class AuthenticationController {
@@ -30,6 +31,13 @@ export class AuthenticationController {
   @Post('/')
   async login(@BodyDecoder() authDto: AuthDto) {
     return await this.authenticationService.login(authDto);
+  }
+
+  @Public()
+  @Post('/google')
+  async googleLogin(@BodyDecoder() user: IUser) {
+    console.log(user, 'googleUser')
+    return await this.authenticationService.googleLogin(user);
   }
 
   @Public()
