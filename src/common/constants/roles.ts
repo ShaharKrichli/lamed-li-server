@@ -1,4 +1,5 @@
 export enum Role {
+  ADMIN = 'ADMIN',
   USER = 'USER',
   TEACHER = 'TEACHER',
   AUTH_PROCESS = 'AUTH_PROCESS',
