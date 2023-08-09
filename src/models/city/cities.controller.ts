@@ -11,6 +11,7 @@ import { Role } from 'src/common/constants/roles';
 
 // interfaces
 import { ICity } from './interfaces/city.interface';
+import { CityService } from './cities.service';
 
 //services
 // import { TeacherService } from './teachers.service';
@@ -23,13 +24,13 @@ export class CitiesController {
 
  
     @Public()
-    @Get('/get-city:id')
+    @Get(':id')
     async getCityById(@Param('id') id: string): Promise<ICity> {
         return await this.cityService.getCityById(id);
     }
   
     @Roles(Role.ADMIN)
-    @Post('/add-city/:city')
+    @Post(':city')
     async createCity(@Param() city: ICity): Promise<ICity> {
         return await this.cityService.createCity(city);
     }

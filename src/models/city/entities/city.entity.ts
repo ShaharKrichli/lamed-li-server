@@ -30,7 +30,7 @@ export class City extends Model<City> implements ICity {
     public description: string;
 
     @Column({ type: DataType.TEXT })
-    public parents: [string];
+    public parents: string [];
 
    
 }
