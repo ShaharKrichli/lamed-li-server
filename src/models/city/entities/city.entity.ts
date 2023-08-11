@@ -29,8 +29,8 @@ export class City extends Model<City> implements ICity {
     @Column({ type: DataType.TEXT })
     public description: string;
 
-    @Column({ type: DataType.TEXT })
-    public parents: string [];
+    // @Column({ type: DataType.TEXT })
+    // public parents: string [];
 
    
 }

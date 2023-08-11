@@ -3,5 +3,5 @@ export interface ICity {
     parent_id: string
     name: string;
     description: string;
-    parents: string []
+    // parents: string []
 }

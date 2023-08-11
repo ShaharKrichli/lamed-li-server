@@ -25,6 +25,7 @@ import { RefreshTokenStrategy } from './common/strategies/refreshToken.strategy'
 
 // filters
 import { CustomExceptionFilter } from './common/exception/custom-exception';
+import { CitiesModule } from './models/city/cities.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CustomExceptionFilter } from './common/exception/custom-exception';
     GenericFieldsModule,
     DropdownOptionsModule,
     PageTitlesModule,
+    CitiesModule,
   ],
   controllers: [AppController],
   providers: [
@@ -44,10 +46,10 @@ import { CustomExceptionFilter } from './common/exception/custom-exception';
       provide: APP_GUARD,
       useClass: JwtAuthGuard
     },
-    {
-      provide: APP_FILTER,
-      useClass: CustomExceptionFilter
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: CustomExceptionFilter
+    // },
     {
       provide: APP_GUARD,
       useClass: RolesGuard
