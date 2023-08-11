@@ -29,10 +29,10 @@ export class CitiesController {
         return await this.cityService.getCityById(id);
     }
   
-    @Roles(Role.ADMIN)
+    // @Roles(Role.ADMIN)
     @Post('/')
     async createCity(@Body() city: ICity): Promise<ICity> {
-        return await this.cityService.createCity(city);
+        return await this.createCity(city);
     }
 }
 
