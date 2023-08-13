@@ -1,5 +1,5 @@
 // External Libraries
-import { Controller, Get,Post, Req, Param, ParseIntPipe, Body } from '@nestjs/common';
+import { Controller, Get,Post, Req, Param, ParseIntPipe, Body, Inject } from '@nestjs/common';
 import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 
 // Decorators
@@ -12,6 +12,7 @@ import { Role } from 'src/common/constants/roles';
 // interfaces
 import { ICity } from './interfaces/city.interface';
 import { CityService } from './cities.service';
+import { City } from './entities/city.entity';
 
 //services
 // import { TeacherService } from './teachers.service';
@@ -20,7 +21,10 @@ import { CityService } from './cities.service';
 
 @Controller('cities')
 export class CitiesController {
-    constructor(private readonly cityService: CityService) { }
+    constructor(
+        @Inject(City)
+        private cityService: CityService
+        ) { }
 
  
     @Public()
@@ -32,7 +36,7 @@ export class CitiesController {
     // @Roles(Role.ADMIN)
     @Post('/')
     async createCity(@Body() city: ICity): Promise<ICity> {
-        return await this.createCity(city);
+        return await this.cityService.createCity(city);
     }
 }
 
