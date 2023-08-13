@@ -1,26 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { City } from './entities/city.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ICity } from './interfaces/city.interface';
+import { CitiesRepository } from './cities.repository';
 
 @Injectable()
 export class CityService {
   constructor(
-    @InjectModel(City)
-    private cityModel: typeof City,
+    @Inject(CitiesRepository)
+    private citiesRepository: CitiesRepository,
   ) {}
 
   async getCityById(id: string): Promise<ICity> {
-    const city = await this.cityModel.findByPk(id);
-    if (!city) {
-      throw new NotFoundException(`City with id ${id} not found`);
-    }
-    return city;
+    return await this.citiesRepository.getCityById(id);
   }
 
   async createCity(cityData: ICity): Promise<ICity> {
-    const newCity = await this.cityModel.create(cityData);
-    return newCity;
+   return await this.citiesRepository.createCity(cityData)
   }
 }
 

@@ -1,5 +1,14 @@
 // External Libraries
-import { Controller, Get,Post, Req, Param, ParseIntPipe, Body, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Param,
+  ParseIntPipe,
+  Body,
+  Inject,
+} from '@nestjs/common';
 import { BodyDecoder } from 'src/common/decorators/bodyDecoder';
 
 // Decorators
@@ -17,29 +26,25 @@ import { City } from './entities/city.entity';
 //services
 // import { TeacherService } from './teachers.service';
 
-
-
 @Controller('cities')
 export class CitiesController {
-    constructor(
-        @Inject(City)
-        private cityService: CityService
-        ) { }
+  constructor(
+    @Inject(CityService)
+    private cityService: CityService,
+  ) {}
 
- 
-    @Public()
-    @Get(':id')
-    async getCityById(@Param('id') id: string): Promise<ICity> {
-        return await this.cityService.getCityById(id);
-    }
-  
-    // @Roles(Role.ADMIN)
-    @Post('/')
-    async createCity(@Body() city: ICity): Promise<ICity> {
-        return await this.cityService.createCity(city);
-    }
+  @Public()
+  @Get(':id')
+  async getCityById(@Param('id') id: string): Promise<ICity> {
+    return await this.cityService.getCityById(id);
+  }
+
+  // @Roles(Role.ADMIN)
+  @Post('/')
+  async createCity(@Body() city: ICity): Promise<ICity> {
+    return await this.cityService.createCity(city);
+  }
 }
-
 
 // @Post('/forgot-password')
 //   async forgotPassword(@BodyDecoder() body: IEmail) {
