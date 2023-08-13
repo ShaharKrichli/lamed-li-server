@@ -19,7 +19,7 @@ export class CitiesRepository extends BaseRepositoryORM<City> {
   }
 
   async getCityById(id: string): Promise<City> {
-    const city = await this.cityModel.findByPk(id);
+    const city:any = await this.cityModel.findByPk(id);
     if (!city) {
       throw new NotFoundException(`City with id ${id} not found`);
     }
@@ -27,7 +27,7 @@ export class CitiesRepository extends BaseRepositoryORM<City> {
   }
 
   async createCity(cityData: ICity): Promise<City> {
-    const newCity = await this.cityModel.create(cityData);
+    const newCity:any = await this.cityModel.create(cityData);
     return newCity;
   }
 }
